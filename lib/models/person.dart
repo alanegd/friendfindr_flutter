@@ -71,7 +71,7 @@ class Person {
 
   Map<String, dynamic> toMap() {
     return {
-      'isFavorite': isFavorite,
+      'isFavorite': isFavorite ? 1 : 0,
       'id': id,
       'thumbnail': picture.thumbnail,
       'first': name.first,

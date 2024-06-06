@@ -19,7 +19,7 @@ class PersonDao {
 
   Future<bool> isFavorite(Person person) async {
     Database db = await AppDatabase().openDb();
-    List<Map<String, dynamic>> maps = await db.query(AppDatabase().tableName,
+    List maps = await db.query(AppDatabase().tableName,
         where: "id = ?", whereArgs: [person.id]);
 
     print('Checking if person is favorite: ${maps.isNotEmpty}');
@@ -28,10 +28,8 @@ class PersonDao {
 
   Future<List<Person>> getAll() async {
     Database db = await AppDatabase().openDb();
-    List<Map<String, dynamic>> maps = await db.query(AppDatabase().tableName);
-
+    List maps = await db.query(AppDatabase().tableName);
     print('Fetched all people: $maps');
-
     return maps.map((map) => Person.fromMap(map)).toList();
   }
 }
