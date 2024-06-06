@@ -4,6 +4,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 class PersonDao {
   insert(Person person) async {
+    person.isFavorite = true;
     Database db = await AppDatabase().openDb();
     print('Inserting person: ${person.toMap()}');
     await db.insert(AppDatabase().tableName, person.toMap());

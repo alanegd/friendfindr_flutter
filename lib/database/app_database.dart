@@ -13,7 +13,7 @@ class AppDatabase {
       version: version,
       onCreate: (db, version) {
         String query =
-            "create table $tableName (id text primary key, title text, first text, last text, email text, cell text, gender text, city text, thumbnail text, isFavorite BOOLEAN)";
+            "create table $tableName (isFavorite BOOLEAN, id text primary key, title text, first text, last text, email text, cell text, gender text, city text, thumbnail text)";
 
         db.execute(query);
       },
