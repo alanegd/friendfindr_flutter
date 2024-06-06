@@ -36,6 +36,8 @@ class Location {
 }
 
 class Person {
+  bool isFavorite;
+  final String id;
   final Picture picture;
   final Name name;
   final String email;
@@ -44,7 +46,9 @@ class Person {
   final String gender;
   final Location location;
 
-  const Person({
+  Person({
+    required this.isFavorite,
+    required this.id,
     required this.picture,
     required this.name,
     required this.email,
@@ -54,12 +58,45 @@ class Person {
     required this.location,
   });
 
-  Person.fromJson(Map<String, dynamic> json)
-      : picture = Picture.fromJson(json['picture']),
-        name = Name.fromJson(json['name']),
-        email = json['email'],
-        cell = json['cell'],
-        title = json['name']['title'],
-        gender = json['gender'],
-        location = Location.fromJson(json['location']);
+  Person.fromJson(Map<String, dynamic> map)
+      : isFavorite = map['isFavorite'] == 1,
+        id = map['id']?['value'] ?? '',
+        picture = Picture.fromJson(map['picture']),
+        name = Name.fromJson(map['name']),
+        email = map['email'] ?? '',
+        cell = map['cell'] ?? '',
+        title = map['name']?['title'] ?? '',
+        gender = map['gender'] ?? '',
+        location = Location.fromJson(map['location']);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'isFavorite': isFavorite,
+      'id': id,
+      'thumbnail': picture.thumbnail,
+      'first': name.first,
+      'last': name.last,
+      'email': email,
+      'cell': cell,
+      'title': title,
+      'gender': gender,
+      'city': location.city,
+    };
+  }
+
+  static Person fromMap(Map<String, dynamic> map) {
+    return Person(
+        isFavorite: map['isFavorite'] == 1,
+        id: map['id'] ?? '',
+        picture: Picture(thumbnail: map['thumbnail'] ?? ''),
+        name: Name(
+            first: map['first'] ?? '',
+            last: map['last'] ?? '',
+            title: map['title'] ?? ''),
+        email: map['email'] ?? '',
+        cell: map['cell'] ?? '',
+        title: map['title'] ?? '',
+        gender: map['gender'] ?? '',
+        location: Location(city: map['city'] ?? ''));
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:friendfindr_flutter/dao/person_dao.dart';
 import 'package:friendfindr_flutter/models/person.dart';
 import 'package:friendfindr_flutter/screens/widgets/custom_search_bar.dart';
 import 'package:friendfindr_flutter/screens/widgets/people_list.dart';
@@ -62,7 +63,20 @@ class _PeopleScreenState extends State<PeopleScreen> {
             Expanded(
               child: isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : PeopleList(people: people),
+                  : PeopleList(
+                      people: people,
+                      onFavoriteToggled: (person) async {
+                        bool isFav = await PersonDao().isFavorite(person);
+                        if (isFav) {
+                          await PersonDao().delete(person);
+                        } else {
+                          await PersonDao().insert(person);
+                        }
+                        setState(() {
+                          person.isFavorite = !isFav;
+                        });
+                      },
+                    ),
             ),
           ],
         ),
